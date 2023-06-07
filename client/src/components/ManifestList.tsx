@@ -1,14 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import ManifestDetails from './ManifestDetails';
+import AllAppsBtn from './AllAppsBtn'
 
 function ManifestList() {
   const navigate = useNavigate();
-
-  const handleBack = (e) => {
-    e.preventDefault();
-    navigate('/home');
-  };
 
   //grab all the data from backend
   const [mlList, setMlList] = useState([]);
@@ -31,7 +27,7 @@ function ManifestList() {
         console.log('data for this app is: ', data);
         for (const el of data) {
           stateArr.push(
-            <div className='border flex flex-row place-content-between  bg-white drop-shadow rounded-md max-w-screen-sm m-2 p-7'>
+            <div className='border flex flex-row place-content-between bg-white hover:bg-orange-50 hover:cursor-pointer drop-shadow rounded-md max-w-screen-sm m-2 p-7'>
               <div className='flex flex-col'>
                 <h2 className='text-lg'>Git sha:</h2>
                 <span className='font-mono text-rose-700 bg-slate-100 px-2 rounded'>
@@ -66,18 +62,17 @@ function ManifestList() {
   if (!detail) {
     return (
       <div>
-        <button
-          className='rounded-md bg-slate-100 hover:bg-slate-200 px-4 py-2'
-          onClick={(e) => handleBack(e)}
-        >
-          ⬅️ All apps
-        </button>
+        <AllAppsBtn/>
         {mlList}
       </div>
     );
   } else {
     return (
-      <ManifestDetails details={manifests} setDetail={setDetail} sha={sha} />
+      <>
+        <AllAppsBtn/>
+        {mlList}
+        <ManifestDetails details={manifests} setDetail={setDetail} sha={sha} />
+      </>
     );
   }
 }
